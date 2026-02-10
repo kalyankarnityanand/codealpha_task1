@@ -1,0 +1,59 @@
+# Hardcoded dictionary defining stock prices
+stock_prices = {
+    "AAPL": 180,
+    "TSLA": 250,
+    "GOOGL": 140,
+    "AMZN": 175,
+    "MSFT": 400
+}
+
+def main():
+    print("--- Simple Stock Portfolio Tracker ---")
+    print(f"Available stocks: {', '.join(stock_prices.keys())}\n")
+    
+    total_investment = 0
+    portfolio_details = []
+
+    while True:
+        symbol = input("Enter stock symbol (or type 'done' to finish): ").upper()
+        
+        if symbol == 'DONE':
+            break
+        
+        if symbol in stock_prices:
+            try:
+                quantity = int(input(f"How many shares of {symbol} do you own? "))
+                
+                # Calculate value
+                price = stock_prices[symbol]
+                value = price * quantity
+                total_investment += value
+                
+                # Store info for the summary
+                portfolio_details.append(f"{symbol}: {quantity} shares @ ${price} = ${value}")
+                print(f"Added {symbol} to calculation.")
+            except ValueError:
+                print("Invalid quantity. Please enter a whole number.")
+        else:
+            print(f"Sorry, {symbol} is not in our price database.")
+        print("-" * 30)
+
+    # Display Result
+    print("\n--- Portfolio Summary ---")
+    for item in portfolio_details:
+        print(item)
+    print(f"\nTOTAL INVESTMENT VALUE: ${total_investment}")
+
+    # Optional: Save to .txt file
+    save_choice = input("\nWould you like to save this result to a file? (y/n): ").lower()
+    if save_choice == 'y':
+        with open("portfolio_summary.txt", "w") as f:
+            f.write("Stock Portfolio Summary\n")
+            f.write("=" * 25 + "\n")
+            for item in portfolio_details:
+                f.write(item + "\n")
+            f.write(f"\nTotal Value: ${total_investment}")
+        print("Summary saved to portfolio_summary.txt")
+
+if ___name___ == "___main___":
+    main()
